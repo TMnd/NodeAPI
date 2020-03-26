@@ -3,7 +3,7 @@
 Autor: João Luís Amaral
 
 ## Dependencies:
-    
+
     Node:       v12.16.1,
     Npm:        v6.13.4,
     express:    v4.17.1,
@@ -14,23 +14,28 @@ Autor: João Luís Amaral
     nodemon:    v2.0.2 (dev dependencies)
 
 ### Installation:
-*  Windows:
-   *  [Instalation guide](https://phoenixnap.com/kb/install-node-js-npm-on-windows)
-*  Linux:
-   *  [Instalation guide](https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/)
 
-After the installion go to the api root folder in the terminal and type "npm install". In case of using any linux distro maybe will be necessary to use sudo. 
+- Windows:
+  - [Instalation guide](https://phoenixnap.com/kb/install-node-js-npm-on-windows)
+- Linux:
+  - [Instalation guide](https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/)
+
+After the installion go to the api root folder in the terminal and type "npm install". In case of using any linux distro maybe will be necessary to use sudo.
+
+### The database used is in the file db_bacl.sql
 
 ## Configurations:
 
-In the root of the folder there is a file called config.json. 
+In the root of the folder there is a file called config.json.
 In that file there are fields to add the database information, by default the API is reading the information under "Development".
 
 The default por is 4000.
 
 ## EndPoints:
-* /api/v1/data
-  * / 
+
+- /api/v1/data
+  - /
+
 ```json
 Method: POST
 Information: Insert data from JSON object to the database.
@@ -43,7 +48,7 @@ Request body example:
     "udp_sendTime": 56,
     "Flush":[300, 250 , 200, 150, 100, 50, 0],
     "Refill":[0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300]
-} 
+}
 --
 Response sucess:
 Status Code: 200
@@ -58,8 +63,10 @@ Status Code: 404
     "message": "Micro processor not found"
 }
 ```
-* /api/v1/tanks
-  * /
+
+- /api/v1/tanks
+  - /
+
 ```json
 Method: GET
 Information: Get the information about all the tanks.
@@ -95,7 +102,9 @@ Status Code: 404
     "message": "Tank not found"
 }
 ```
-  * /tank/:model/:country
+
+- /tank/:model/:country
+
 ```json
 Method: GET
 Information: Get the information from a individual tank.
@@ -122,6 +131,7 @@ Status Code: 404
     "message": "Tank not found"
 }
 ```
+
 ```json
 Method: DELETE
 Information: Deletion of a existing tank.
@@ -141,7 +151,9 @@ Status Code: 404
 }
 
 ```
-  * /newtank
+
+- /newtank
+
 ```json
 Method: POST
 Information: Insert a new tank.
@@ -155,7 +167,7 @@ Request body example:
 }
 --
 Status Code: 201
-Response sucess: 
+Response sucess:
 {
     "status": "sucess"
 }
@@ -171,8 +183,9 @@ Status Code: 500
 If already exist:
 Status Code: 204
 ```
-  * /tankMap/new'
-    
+
+- /tankMap/new'
+
 ```json
 Method: POST
 Information: Insert map data from a tank.
@@ -217,7 +230,9 @@ Status Code: 404
     "message": "Data missing"
 }
 ```
-  * /tankMap/:model/:country
+
+- /tankMap/:model/:country
+
 ```json
 Method: GET
 Information: Getting the tank mapping.
@@ -272,4 +287,3 @@ Status Code: 404
     "message": "Data not found"
 }
 ```
-
