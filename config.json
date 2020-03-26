@@ -4,10 +4,10 @@
     "app_name": "SMAC API - Development",
     "app_desc": "This Software is used as middleware between each arduino clients and the main server.",
     "node_port": 4000,
-    "database": "smac_back",
-    "db_host": "10.10.0.222",
-    "db_user": "joao",
-    "db_password": "Pokemon123"
+    "database": "smac",
+    "db_host": "",
+    "db_user": "",
+    "db_password": ""
   },
   "testing": {
     "config_id": "Testing",
