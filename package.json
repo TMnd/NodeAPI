@@ -1,0 +1,21 @@
+{
+  "name": "smac",
+  "version": "1.0.0",
+  "description": "Smac peoject Rest API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "João Amaral",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "intl": "^1.2.5",
+    "lodash": "^4.17.15",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1"
+  }
+}
