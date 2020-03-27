@@ -1,8 +1,9 @@
+process.env.NODE_ENV = 'development'; //[development, testing, production]
+
 const app = require('./app');
 const pool = require('./config/database');
-
-process.env.NODE_ENV = 'Development'; //[development, testing, production]
 require('./config/config.js');
+
 const port = global.gConfig.node_port;
 
 app.listen(port, () => {
@@ -32,7 +33,7 @@ app.listen(port, () => {
       );
     })
     .catch(err => {
-      console.log(err);
-      throw err;
+      console.log('Failed to connect with the database!');
+      if (global.gConfig.config_id === 'Development') throw err;
     });
 });
