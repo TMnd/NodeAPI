@@ -20,8 +20,8 @@ class tank {
     const selectTankIDQuery = `SELECT * FROM model_tank WHERE model=? AND country=?`;
 
     const formatTankIdSelectQuery = mysql.format(selectTankIDQuery, [
-      req.params.model,
-      req.params.country
+      req.query.model,
+      req.query.country
     ]);
 
     db.select(formatTankIdSelectQuery)
@@ -76,8 +76,8 @@ class tank {
     const deleteTankInfoData = `DELETE FROM model_tank WHERE id = (SELECT id FROM model_tank WHERE model=? AND country=?);`;
 
     const deleteTankInfoDataQuery = mysql.format(deleteTankInfoData, [
-      req.params.model,
-      req.params.country
+      req.query.model,
+      req.query.country
     ]);
 
     try {
@@ -124,8 +124,8 @@ class tank {
     const selectTankMapInfoData = `SELECT * FROM tank_mapping WHERE ref_id_model_tank = (SELECT id FROM model_tank WHERE model=? AND country=?);`;
 
     const selectTankMapInfoDataQuery = mysql.format(selectTankMapInfoData, [
-      req.params.model,
-      req.params.country
+      req.query.model,
+      req.query.country
     ]);
 
     db.select(selectTankMapInfoDataQuery)
@@ -193,8 +193,8 @@ class tank {
     const deleteTankMapData = `DELETE FROM tank_mapping WHERE ref_id_model_tank = (SELECT id FROM model_tank WHERE model=? AND country=?);`;
 
     const deleteTankMapDataQuery = mysql.format(deleteTankMapData, [
-      req.params.model,
-      req.params.country
+      req.query.model,
+      req.query.country
     ]);
 
     try {

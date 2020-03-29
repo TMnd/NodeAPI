@@ -2,10 +2,13 @@ const express = require('express');
 const router = express.Router();
 const tankController = require('../controllers/tankController');
 
-//verificar o select!
+// router
+//   .route('/tank/:model/:country')
+//   .get(tankController.getTankInfo)
+//   .delete(tankController.deleteTank);
 
 router
-  .route('/tank/:model/:country')
+  .route('/tank/')
   .get(tankController.getTankInfo)
   .delete(tankController.deleteTank);
 
@@ -14,7 +17,7 @@ router
   .post(tankController.checkBody_tank, tankController.insertNewTank);
 
 router
-  .route('/tankMap/:model/:country')
+  .route('/tankMap')
   .get(tankController.getTankMapInfo)
   .delete(tankController.deleteTankMap);
 

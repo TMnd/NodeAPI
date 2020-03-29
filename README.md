@@ -108,7 +108,7 @@ Status Code: 404
 ```json
 Method: GET
 Information: Get the information from a individual tank.
-URL: 127.0.0.1:4000/api/v1/tanks/tank/Oli-76/POR/
+URL: 127.0.0.1:4000/api/v1/tanks/tank?model=Oli-76&country=POR
 --
 Status Code: 200
 Response sucess:
@@ -135,7 +135,7 @@ Status Code: 404
 ```json
 Method: DELETE
 Information: Deletion of a existing tank.
-URL: 127.0.0.1:4000/api/v1/tanks/tank/Oli-78/POR/
+URL: 127.0.0.1:4000/api/v1/tanks/tank?model=Oli-76&country=POR
 --
 Status Code: 202
 Response sucess:
@@ -236,7 +236,7 @@ Status Code: 404
 ```json
 Method: GET
 Information: Getting the tank mapping.
-URL: 127.0.0.1:4000/api/v1/tanks/tankMap/Oli-76/POR/
+URL: 127.0.0.1:4000/api/v1/tanks/tankMap?model=Oli-76&country=POR
 --
 Status Code: 200
 Response sucess:
@@ -272,7 +272,7 @@ Status Code: 404
 ```json
 Method: DELETE
 Information: Delete all the data related with a specific tank.
-URL: 127.0.0.1:4000/api/v1/tanks/tankMap/xpto/PT
+URL: 127.0.0.1:4000/api/v1/tanks/tankMap?model=Oli-76&country=POR
 --
 Status Code: 200
 Response sucess:
