@@ -17,4 +17,11 @@ app.use(express.json());
 app.use('/api/v1/data', dataRouter);
 app.use('/api/v1/tanks', tankRouter);
 
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Can't find ${req.originalUrl} on this server!`
+  });
+});
+
 module.exports = app;
