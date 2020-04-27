@@ -12,8 +12,8 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // app.use('/api/v1/auths', authRouter);
-app.use('/api/v2/data', dataRouter);
-app.use('/api/v2/tanks', tankRouter);
+app.use('/api_v2/data', dataRouter);
+app.use('/api_v2/tanks', tankRouter);
 
 app.all('*', (req, res, next) => {
   res.status(404).json({

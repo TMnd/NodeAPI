@@ -3,8 +3,8 @@ const pool = require('../config/database');
 const miscellaneous = require('../miscellaneous/date');
 const os = require('os');
 
-const getMicroPId_db = selectQuery => {
-  return new Promise(function(resolve, reject) {
+const getMicroPId_db = (selectQuery) => {
+  return new Promise(function (resolve, reject) {
     pool.query(selectQuery, (err, data) => {
       if (err || data.length === 0) {
         reject('Micro processor not found');
@@ -15,8 +15,8 @@ const getMicroPId_db = selectQuery => {
   });
 };
 
-const insert_db = insertQuery => {
-  return new Promise(function(resolve, reject) {
+const insert_db = (insertQuery) => {
+  return new Promise(function (resolve, reject) {
     pool.query(insertQuery, (err, data) => {
       if (err) {
         reject('Insertion error');
@@ -45,7 +45,7 @@ class data {
       //TODO: Verify if the micro information is present in the database PODE SER COLOCADO EM UM MIDDLEWARE!!!
       const selectGet_mp_id_statement = `SELECT id FROM arduinos WHERE client_macaddress=?`;
       const selectGet_mp_id_query = mysql.format(selectGet_mp_id_statement, [
-        clientMACId
+        clientMACId,
       ]);
 
       try {
@@ -53,7 +53,7 @@ class data {
       } catch (err) {
         res.status(404).json({
           success: 'failure',
-          message: err
+          message: err,
         });
         throw err;
       }
@@ -124,7 +124,7 @@ class data {
       } catch (err) {
         res.status(500).json({
           success: 'failure',
-          message: err
+          message: err,
         });
         throw err;
       }
@@ -181,7 +181,7 @@ class data {
       } catch (err) {
         res.status(500).json({
           success: 'failure',
-          message: err
+          message: err,
         });
         throw err;
       }
@@ -219,7 +219,7 @@ class data {
       // }
 
       res.status(200).json({
-        success: 'success'
+        success: 'success',
       });
     }
   }

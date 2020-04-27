@@ -8,7 +8,7 @@ const pool = mysql.createPool({
   user: global.gConfig.db_user,
   password: global.gConfig.db_password,
   database: global.gConfig.database,
-  debug: false
+  debug: false,
 });
 
 pool.getConnection((err, connection) => {

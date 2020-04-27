@@ -17,7 +17,7 @@ class tank {
   //TODO: Ao receber os dados devem adquirar os dados de "data" e não de "message".
   //Adquirir a informação do tanque individual (127.0.0.1:4000/api/v1/tanks/tank/:model(Oli-76)/:country(POR)/)
   getTankInfo(req, res) {
-    const selectTankIDQuery = `SELECT * FROM model_tank WHERE model=? AND country=?`;
+    const selectTankIDQuery = `SELECT * FROM modeltank WHERE model=? AND country=?`;
 
     const formatTankIdSelectQuery = mysql.format(selectTankIDQuery, [
       req.query.model,
@@ -37,13 +37,12 @@ class tank {
           status: 'failure',
           message: err
         });
-        if (global.gConfig.config_id === 'Development') throw err;
       });
   }
 
   //Inserir um novo tanque na base de dados ({"model": "Oli-78", "country": "POR", "sf_target": 4, "ff_target": 6})
-  async insertNewTank(req, res) {
-    const insertNewTankStatment = `INSEaT INTO model_tank (model, country, sf_volume_target, ff_volume_target) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM model_tank WHERE model = ? AND country =?);`;
+  insertNewTank(req, res) {
+    const insertNewTankStatment = `INSERT INTO modeltank (model, country, sf_volume_target, ff_volume_target) SELECT ?, ?, ?, ? WHERE NOT EXISTS (SELECT 1 FROM modeltank WHERE model = ? AND country =?);`;
     const insertNewTankQuery = mysql.format(insertNewTankStatment, [
       req.body.model,
       req.body.country,
@@ -52,57 +51,54 @@ class tank {
       req.body.model,
       req.body.country
     ]);
-    try {
-      const x = await db.insert(insertNewTankQuery);
-      if (x.affectedRows == 1) {
-        res.status(201).json({
-          status: 'sucess'
+
+    db.insert(insertNewTankQuery)
+      .then(data => {
+        if (data.affectedRows == 1) {
+          res.status(201).json({
+            status: 'sucess'
+          });
+        } else {
+          res.status(204).json({
+            status: 'sucess'
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({
+          status: 'failure',
+          message: err
         });
-      }
-      res.status(204).json({
-        status: 'sucess'
       });
-    } catch (err) {
-      res.status(500).json({
-        status: 'failure',
-        message: err
-      });
-      if (global.gConfig.config_id === 'Development') throw err;
-    }
   }
 
   //Eliminar um tanque já presente na base de dados (127.0.0.1:4000/api/v1/tanks/tank/:model(Oli-78)/:country(POR)/)
-  async deleteTank(req, res) {
-    const deleteTankInfoData = `DELETE FROM model_tank WHERE id = (SELECT id FROM model_tank WHERE model=? AND country=?);`;
+  deleteTank(req, res) {
+    const deleteTankInfoData = `DELETE FROM modeltank WHERE model=? AND country=?;`;
 
     const deleteTankInfoDataQuery = mysql.format(deleteTankInfoData, [
-      req.query.model,
-      req.query.country
+      req.body.model,
+      req.body.country
     ]);
 
-    try {
-      const x = await db.delete(deleteTankInfoDataQuery);
-      if (x.affectedRows === 0) {
-        res.status(400).json({
-          status: 'failure',
-          message: 'Data not found'
+    db.delete(deleteTankInfoDataQuery)
+      .then(data => {
+        res.status(202).json({
+          status: 'sucess'
         });
-      }
-      res.status(202).json({
-        status: 'sucess'
+      })
+      .catch(err => {
+        res.status(404).json({
+          status: 'failure',
+          message: err
+        });
       });
-    } catch (err) {
-      res.status(500).json({
-        status: 'failure'
-      });
-      if (global.gConfig.config_id === 'Development') throw err;
-    }
   }
 
   //Adquir os dados de todos os tanques.
   getAllTanksData(req, res) {
-    const selectAllDataQuery = `SELECT * FROM model_tank`;
-    db.select(selectAllDataQuery)
+    const selectAllDataQuery = `SELECT * FROM modeltank;`;
+    db.select(mysql.format(selectAllDataQuery))
       .then(data => {
         res.status(200).json({
           status: 'sucess',
@@ -115,13 +111,12 @@ class tank {
           status: 'failure',
           message: err
         });
-        if (global.gConfig.config_id === 'Development') throw err;
       });
   }
 
   //Adquirir os dados relacionados com o mapeamento do tanque X (127.0.0.1:4000/api/v1/tanks/tankMap/:model(Oli-76)/:country(POR)/)
   getTankMapInfo(req, res) {
-    const selectTankMapInfoData = `SELECT * FROM tank_mapping WHERE ref_id_model_tank = (SELECT id FROM model_tank WHERE model=? AND country=?);`;
+    const selectTankMapInfoData = `SELECT * FROM tankmapping WHERE ref_id_model_tank = (SELECT id FROM modeltank WHERE model=? AND country=?);`;
 
     const selectTankMapInfoDataQuery = mysql.format(selectTankMapInfoData, [
       req.query.model,
@@ -130,7 +125,6 @@ class tank {
 
     db.select(selectTankMapInfoDataQuery)
       .then(data => {
-        console.log(data);
         res.status(200).json({
           status: 'sucess',
           results: data.length,
@@ -142,13 +136,12 @@ class tank {
           status: 'failure',
           message: err
         });
-        if (global.gConfig.config_id === 'Development') throw err;
       });
   }
 
   async insertTankMap(req, res) {
-    const insertStatement = `INSERT INTO tank_mapping(volume,waterlevel,ref_id_model_tank) values ?`;
-    const selectStatement = `SELECT id FROM model_tank WHERE model=? AND country=?`;
+    const insertStatement = `INSERT INTO tankmapping(volume,waterlevel,ref_id_model_tank) values ?`;
+    const selectStatement = `SELECT id FROM modeltank WHERE model=? AND country=?`;
 
     try {
       const selectQuery = mysql.format(selectStatement, [
@@ -180,40 +173,35 @@ class tank {
         status: 'sucess'
       });
     } catch (err) {
+      console.log(err);
       res.status(500).json({
         status: 'failure',
         message: err
       });
-      if (global.gConfig.config_id === 'Development') throw err;
     }
   }
 
   //Elimiar o maping do tank selecionado ()
   async deleteTankMap(req, res) {
-    const deleteTankMapData = `DELETE FROM tank_mapping WHERE ref_id_model_tank = (SELECT id FROM model_tank WHERE model=? AND country=?);`;
+    const deleteTankMapData = `DELETE FROM tankmapping WHERE ref_id_model_tank = (SELECT id FROM modeltank WHERE model=? AND country=?);`;
 
     const deleteTankMapDataQuery = mysql.format(deleteTankMapData, [
-      req.query.model,
-      req.query.country
+      req.body.model,
+      req.body.country
     ]);
 
-    try {
-      const x = await db.delete(deleteTankMapDataQuery);
-      if (x.affectedRows === 0) {
-        res.status(404).json({
-          status: 'failure',
-          message: 'Data not found'
+    db.delete(deleteTankMapDataQuery)
+      .then(data => {
+        res.status(202).json({
+          status: 'sucess'
         });
-      }
-      res.status(202).json({
-        status: 'sucess'
+      })
+      .catch(err => {
+        res.status(500).json({
+          status: 'failure',
+          message: err
+        });
       });
-    } catch (err) {
-      res.status(500).json({
-        status: 'failure'
-      });
-      if (global.gConfig.config_id === 'Development') throw err;
-    }
   }
 }
 

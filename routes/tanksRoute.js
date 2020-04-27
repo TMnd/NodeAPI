@@ -9,22 +9,22 @@ const tankController = require('../controllers/tankController');
 
 router
   .route('/tank/')
-  .get(tankController.getTankInfo)
-  .delete(tankController.deleteTank);
+  .get(tankController.getTankInfo) //Adquirir informação de um tanque especifico ---------
+  .delete(tankController.deleteTank); //Remover informação de um tanque especifico ---------
 
 router
   .route('/newtank')
-  .post(tankController.checkBody_tank, tankController.insertNewTank);
+  .get(tankController.checkBody_tank, tankController.insertNewTank); //Adcionar um novo tanque ---------
 
 router
   .route('/tankMap')
-  .get(tankController.getTankMapInfo)
-  .delete(tankController.deleteTankMap);
+  .get(tankController.getTankMapInfo) //Adquirir informação do mapeamento de um tanque ---------
+  .delete(tankController.deleteTankMap); //Remover a informação de um tanque
 
 router
   .route('/tankMap/new')
-  .post(tankController.checkBody_tank, tankController.insertTankMap);
+  .post(tankController.checkBody_tank, tankController.insertTankMap); //Adcionar um novo mapeamento de um tanque ---------
 
-router.route('/').get(tankController.getAllTanksData);
+router.route('/').get(tankController.getAllTanksData); //Adquirir a informação de todos os tanques ---------
 
 module.exports = router;

@@ -16,7 +16,7 @@ const port = global.gConfig.node_port;
 let server = app.listen(port, () => {
   pool
     .query(
-      `SELECT count(*) as x FROM information_schema.tables WHERE table_schema = 'smac_mundo' AND table_name = 'model_tank'`
+      `SELECT count(*) as x FROM information_schema.tables WHERE table_schema = 'smac_mundo' AND table_name = 'modeltank'`
     )
     .then((data) => {
       if (data[0].x === 0) {
